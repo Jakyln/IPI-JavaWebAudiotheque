@@ -1,2 +1,4 @@
-package com.ipiecoles.audiotheque.repository;public class AlbumRepository {
+package com.ipiecoles.audiotheque.repository;
+
+public class AlbumRepository {
 }

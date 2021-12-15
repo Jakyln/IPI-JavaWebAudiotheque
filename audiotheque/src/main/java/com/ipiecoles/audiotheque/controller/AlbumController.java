@@ -1,2 +1,4 @@
-package com.ipiecoles.audiotheque.controller;public class AlbumController {
+package com.ipiecoles.audiotheque.controller;
+
+public class AlbumController {
 }

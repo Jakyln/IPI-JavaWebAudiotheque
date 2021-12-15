@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/IPI-JavaWebAudiotheque.iml" filepath="$PROJECT_DIR$/.idea/IPI-JavaWebAudiotheque.iml" />
+      <module fileurl="file://$PROJECT_DIR$/audiotheque/audiotheque.iml" filepath="$PROJECT_DIR$/audiotheque/audiotheque.iml" />
+    </modules>
+  </component>
+</project>
