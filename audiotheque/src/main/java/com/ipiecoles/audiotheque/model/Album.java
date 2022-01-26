@@ -1,34 +1,35 @@
 package com.ipiecoles.audiotheque.model;
-/*
+
 import org.springframework.data.jpa.repository.query.PartTreeJpaQuery;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Album {
     @Id
-    private Long id;
+    private int id;
     private String title;
+
+    @ManyToOne
     private Artist artist;
-    private Long artist_id = artist.getId();
+    //private int artist_id = artist.getId();
 
     public Album() {}
 
-    public Album(Long id, String title, Artist artist, Long artist_id) {
+    public Album(int id, String title) {
         this.id = id;
         this.title = title;
-        this.artist = artist;
-        this.artist_id = artist_id;
     }
 
 
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -48,13 +49,6 @@ public class Album {
         this.artist = artist;
     }
 
-    public Long getArtist_id() {
-        return artist_id;
-    }
 
-    public void setArtist_id(Long artist_id) {
-        this.artist_id = artist_id;
-    }
 
 }
-*/

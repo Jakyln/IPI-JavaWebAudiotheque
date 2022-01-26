@@ -1,9 +1,8 @@
 package com.ipiecoles.audiotheque.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Artist {
@@ -12,10 +11,13 @@ public class Artist {
     private Long id;
     private String name;
 
+    @OneToMany()
+    private Set<Album> albums = new HashSet<>();
+
 
     public Artist() {}
 
-    public Artist(Long id, String name) {
+    public Artist(Long id, String name, HashSet<Album> albums) {
         this.id = id;
         this.name = name;
     }

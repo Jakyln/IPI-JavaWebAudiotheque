@@ -5,8 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ArtistRepository extends JpaRepository<Artist, Long> {
-    /*List<Artist> findById(Long unId);
-    @Query("select * from artist where id =");*/
+    //Artist findById(int id);
+    //@Query("select * from artist where id = " + unId);
 }
