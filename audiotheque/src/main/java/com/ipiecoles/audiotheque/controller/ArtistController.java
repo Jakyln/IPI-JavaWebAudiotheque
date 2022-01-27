@@ -23,13 +23,7 @@ public class ArtistController {
     @Autowired
     private ArtistRepository artistRepository;
 
-    @RequestMapping(
-            method = RequestMethod.GET,
-            value = "/count"
-    )
-    public Long countArtist(){
-        return artistRepository.count();
-    }
+
 
     @RequestMapping(
             method = RequestMethod.GET,
@@ -95,7 +89,7 @@ public class ArtistController {
             throw new IllegalArgumentException("La taille doit être inférieure ou égale à 50 !");
         }
         //page et size cohérents par rapport au nombre de lignes de la table => 400 BAD REQUEST
-            long nbArtists = artistRepository.count();
+            Long nbArtists = artistRepository.count();
         if((long) size * page > nbArtists){
             throw new IllegalArgumentException("Le couple numéro de page et taille de page est incorrect !");
         }
@@ -129,6 +123,34 @@ public class ArtistController {
         }
     }
 
+    /*@RequestMapping(
+            method = RequestMethod.PUT,
+            value = "/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Artist updateArtist(
+            @RequestBody Artist artist,
+            @PathVariable Long id
+            //matricule modifié correspondant à un autre employé existant => 409 CONFLICT
+            //valeurs incompatibles avec le type de l'attribut => 400 BAD REQUEST
+            //valeurs incorrectes (fonctionnel) => 400 BAD REQUEST
+            //excède les limites de la base (ex : nom > 50 caractères) => 400 BAD REQUEST
+            //Vérifier que l'id de l'url correspond à l'id dans l'employé => 400 BAD REQUEST
+    ){
+        return artistRepository.save(artist);
+    }*/
+
+    @RequestMapping(
+            method = RequestMethod.DELETE,
+            value = "/{id}"
+    )
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteArtist(
+            @PathVariable Long id
+    ){
+        artistRepository.deleteById(id);
+    }
 
 
 
