@@ -11,4 +11,6 @@ public interface ArtistRepository extends JpaRepository<Artist, Long> {
     //Artist findById(int id);
     //@Query("select * from artist where id = " + unId);
     Artist findByName(String name);
+    boolean existsByName(String name);
+
 }
