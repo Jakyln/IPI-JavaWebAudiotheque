@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Album {
     @Id
-    private long id;
+    private Long id;
     private String title;
 
     @ManyToOne
@@ -18,18 +18,18 @@ public class Album {
 
     public Album() {}
 
-    public Album(long id, String title) {
+    public Album(Long id, String title) {
         this.id = id;
         this.title = title;
     }
 
 
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
