@@ -109,7 +109,7 @@ public class ArtistController {
         //Artiste existe déjà (id, nom existant) => 409 CONFLICT
         if(artist.getId() != null && artistRepository.existsById(artist.getId()) ||
                 artistRepository.existsByName(artist.getName())){
-            throw new EntityExistsException("Il existe déjà un employé identique en base");
+            throw new EntityExistsException("Il existe déjà un artiste identique en base");
         }
         //        //valeurs incompatibles avec le type de l'attribut => 400 BAD REQUEST
         //        //valeurs incorrectes (fonctionnel) => 400 BAD REQUEST
@@ -119,7 +119,7 @@ public class ArtistController {
             return artistRepository.save(artist);
         }
         catch(Exception e){
-            throw new IllegalArgumentException("Problème lors de la sauvegarde de l'employé");
+            throw new IllegalArgumentException("Problème lors de la sauvegarde de l'artiste");
         }
     }
 
@@ -132,16 +132,16 @@ public class ArtistController {
     public Artist updateArtist(
             @RequestBody Artist artist,
             @PathVariable Long id
-            //matricule modifié correspondant à un autre employé existant => 409 CONFLICT
+            //nom modifié correspondant à un autre artiste existant => 409 CONFLICT
             //valeurs incompatibles avec le type de l'attribut => 400 BAD REQUEST
             //valeurs incorrectes (fonctionnel) => 400 BAD REQUEST
             //excède les limites de la base (ex : nom > 50 caractères) => 400 BAD REQUEST
-            //Vérifier que l'id de l'url correspond à l'id dans l'employé => 400 BAD REQUEST
+            //Vérifier que l'id de l'url correspond à l'id dans l'artiste => 400 BAD REQUEST
     ){
         return artistRepository.save(artist);
     }*/
 
-    @RequestMapping(
+    /*@RequestMapping(
             method = RequestMethod.DELETE,
             value = "/{id}"
     )
@@ -150,7 +150,7 @@ public class ArtistController {
             @PathVariable Long id
     ){
         artistRepository.deleteById(id);
-    }
+    }*/
 
 
 

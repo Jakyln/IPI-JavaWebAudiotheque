@@ -5,6 +5,6 @@ import com.ipiecoles.audiotheque.model.Artist;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AlbumRepository extends JpaRepository<Album, Long> {
-    boolean existsByName(String title);
+    //boolean existsByName(String title);
 
 }

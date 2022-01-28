@@ -7,16 +7,15 @@ import com.ipiecoles.audiotheque.repository.ArtistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityExistsException;
-
+/*
+@RestController
+@RequestMapping("/albums")*/
 public class AlbumController {
 
-    @Autowired
+    /*@Autowired
     private AlbumRepository albumRepository;
 
     @RequestMapping(
@@ -32,7 +31,7 @@ public class AlbumController {
         //Artiste existe déjà (id, nom existant) => 409 CONFLICT
         if(album.getId() != null && albumRepository.existsById(album.getId()) ||
                 albumRepository.existsByName(album.getTitle())){
-            throw new EntityExistsException("Il existe déjà un employé identique en base");
+            throw new EntityExistsException("Il existe déjà un artiste identique en base");
         }
         //        //valeurs incompatibles avec le type de l'attribut => 400 BAD REQUEST
         //        //valeurs incorrectes (fonctionnel) => 400 BAD REQUEST
@@ -42,9 +41,9 @@ public class AlbumController {
             return albumRepository.save(album);
         }
         catch(Exception e){
-            throw new IllegalArgumentException("Problème lors de la sauvegarde de l'employé");
+            throw new IllegalArgumentException("Problème lors de la sauvegarde de l'artiste");
         }
-    }
+    }*/
 }
 
 
