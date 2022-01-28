@@ -10,14 +10,15 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityExistsException;
-/*
-@RestController
+
+/*@RestController
 @RequestMapping("/albums")*/
 public class AlbumController {
 
-    /*@Autowired
+    @Autowired
     private AlbumRepository albumRepository;
 
+    /*
     @RequestMapping(
             method = RequestMethod.POST,
             value = "",
