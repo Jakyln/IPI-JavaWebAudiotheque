@@ -15,8 +15,7 @@ public interface ArtistRepository extends JpaRepository<Artist, Long> {
     //@Query("select * from artist where id = " + unId);
     boolean existsByName(String name);
 
-    //@Query(value = "SELECT id,name FROM Artist WHERE Artist.name LIKE '"+ name + "%'  ")
-    //@Query(value = "SELECT id,name FROM Artist WHERE Artist.name LIKE :name% ")
+    @Query(value = "SELECT * FROM Artist a WHERE a.name LIKE :name% ", nativeQuery = true)
     List<Artist> findByName(@Param("name") String name); //On met dans le paramètre du nom raccourci dans la requète  ex :'aero%'
 
     //Page<Artist> findByNameIgnoreCase(String name, Pageable pageable);
