@@ -205,7 +205,7 @@ public class ArtistController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public String updateArtistName(
+    public Artist updateArtistName(
             @PathVariable Long id,
             @RequestBody String infos // infos est en json {"name":"Azymuthtest4","id":26}
 
@@ -231,24 +231,25 @@ public class ArtistController {
         }
 
         artist.setName(name);   //met à jour le nom
-        artist = artistRepository.save(artist);
-        return artist.getName(); //renvoie une erreur de 1er caractère JSON, mais la ligne est bien mise à jour dans la bdd
+        //artist = artistRepository.save(artist);
+        return artistRepository.save(artist);
+        //return artist.getName(); //renvoie une erreur de 1er caractère JSON, mais la ligne est bien mise à jour dans la bdd
 
 
     }
 
 
-/*  marche pas : Request method 'DELETE' not supported
+ // marche pas : Request method 'DELETE' not supported
 
     @RequestMapping(
             method = RequestMethod.DELETE,
-            value = "/{id}/delete"
+            value = "/{id}/"
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteArtist(
             @PathVariable Long id
     ){
         artistRepository.deleteById(id);
-    }*/
+    }
 
 }
