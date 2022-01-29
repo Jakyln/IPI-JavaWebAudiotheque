@@ -206,69 +206,33 @@ public class ArtistController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public String updateArtistName(
-            //@RequestBody Artist artist,
             @PathVariable Long id,
-            @RequestBody String infos // name est en json {"name":"Azymuthtest4","id":26}
+            @RequestBody String infos // infos est en json {"name":"Azymuthtest4","id":26}
 
-            //nom modifié correspondant à un autre artiste existant => 409 CONFLICT
-            //valeurs incompatibles avec le type de l'attribut => 400 BAD REQUEST
-            //valeurs incorrectes (fonctionnel) => 400 BAD REQUEST
-            //excède les limites de la base (ex : nom > 50 caractères) => 400 BAD REQUEST
-            //Vérifier que l'id de l'url correspond à l'id dans l'artiste => 400 BAD REQUEST
     ){
 
 
         Artist artist = artistRepository.findArtistById(id); //On recup l'id.
 
+        String name="";
 
-        /*for (int i = 0; i <infos.length() ; i++) {
-            String name = infos.substring(i,2);
-
-        }*/
-
-        String nameTest;
-
-        Pattern p = Pattern.compile("\"([^\"]*)\"");
+        Pattern p = Pattern.compile("\"([^\"]*)\""); //On récupère toutes les valeurs entre guillemets avec regex
         Matcher m = p.matcher(infos);
         while (m.find()) {
-            /*if(!m.group(1).equals("name") || !m.group(1).equals("id") ){
-            }*/
-
+            //dans la boucle ,m.group(1) renvoit "name", le nom rentré et "id", donc on filtre les autres
             if(m.group(1).equals("name") || m.group(1).equals("id") ){
-                //System.out.println("lol");
                 continue;
             }
             else{
-                nameTest = m.group(1);
+                name = m.group(1);
+                //System.out.println(name);
 
             }
-
-            System.out.println(nameTest);
-            /*nameTest = m.group(1);
-            int nbre = nameTest.length()+4;
-            nameTest = nameTest.substring(1,nbre);
-            System.out.print(nameTest);*/
         }
-
-
-
-
-
-        JsonObject jsonObjectInfo ; // on crée un obj Json à partir des données JSON (librairie google gson)
-        jsonObjectInfo = JsonParser.parseString(infos).getAsJsonObject();
-        //jsonElemInfo = JsonParser.parseString(info);
-
-
-
-
-        String name = jsonObjectInfo.get("name").getAsString(); //On recupere l'attribut name
-        //String name = jsonElemInfo.getAsJsonObject().get("name").toString(); //On recupere l'attribut name
-
-
 
         artist.setName(name);   //met à jour le nom
         artist = artistRepository.save(artist);
-        return artist.getName();
+        return artist.getName(); //renvoie une erreur de 1er caractère JSON, mais la ligne est bien mise à jour dans la bdd
 
 
     }
