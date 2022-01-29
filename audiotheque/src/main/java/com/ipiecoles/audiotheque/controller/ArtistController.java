@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ipiecoles.audiotheque.model.Artist;
 import com.ipiecoles.audiotheque.repository.ArtistRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +19,8 @@ import javax.persistence.EntityNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/artists")
@@ -205,7 +208,7 @@ public class ArtistController {
     public String updateArtistName(
             //@RequestBody Artist artist,
             @PathVariable Long id,
-            @RequestBody String info // name est en json {"name":"Azymuthtest4","id":26}
+            @RequestBody String infos // name est en json {"name":"Azymuthtest4","id":26}
 
             //nom modifié correspondant à un autre artiste existant => 409 CONFLICT
             //valeurs incompatibles avec le type de l'attribut => 400 BAD REQUEST
@@ -217,8 +220,42 @@ public class ArtistController {
 
         Artist artist = artistRepository.findArtistById(id); //On recup l'id.
 
+
+        /*for (int i = 0; i <infos.length() ; i++) {
+            String name = infos.substring(i,2);
+
+        }*/
+
+        String nameTest;
+
+        Pattern p = Pattern.compile("\"([^\"]*)\"");
+        Matcher m = p.matcher(infos);
+        while (m.find()) {
+            /*if(!m.group(1).equals("name") || !m.group(1).equals("id") ){
+            }*/
+
+            if(m.group(1).equals("name") || m.group(1).equals("id") ){
+                //System.out.println("lol");
+                continue;
+            }
+            else{
+                nameTest = m.group(1);
+
+            }
+
+            System.out.println(nameTest);
+            /*nameTest = m.group(1);
+            int nbre = nameTest.length()+4;
+            nameTest = nameTest.substring(1,nbre);
+            System.out.print(nameTest);*/
+        }
+
+
+
+
+
         JsonObject jsonObjectInfo ; // on crée un obj Json à partir des données JSON (librairie google gson)
-        jsonObjectInfo = JsonParser.parseString(info).getAsJsonObject();
+        jsonObjectInfo = JsonParser.parseString(infos).getAsJsonObject();
         //jsonElemInfo = JsonParser.parseString(info);
 
 
@@ -227,12 +264,16 @@ public class ArtistController {
         String name = jsonObjectInfo.get("name").getAsString(); //On recupere l'attribut name
         //String name = jsonElemInfo.getAsJsonObject().get("name").toString(); //On recupere l'attribut name
 
+
+
         artist.setName(name);   //met à jour le nom
         artist = artistRepository.save(artist);
         return artist.getName();
 
 
     }
+
+
 /*  marche pas : Request method 'DELETE' not supported
 
     @RequestMapping(
@@ -245,7 +286,5 @@ public class ArtistController {
     ){
         artistRepository.deleteById(id);
     }*/
-
-
 
 }
