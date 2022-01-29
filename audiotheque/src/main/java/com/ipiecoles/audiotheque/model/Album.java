@@ -2,14 +2,15 @@ package com.ipiecoles.audiotheque.model;
 
 import org.springframework.data.jpa.repository.query.PartTreeJpaQuery;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
+//@Table(name="album")
 public class Album {
     @Id
+    //@Column(name="albumleid")
     private Long id;
+    //@Column(name="albumletitle")
     private String title;
 
     @ManyToOne

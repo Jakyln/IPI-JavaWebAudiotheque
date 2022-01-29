@@ -1,5 +1,8 @@
 package com.ipiecoles.audiotheque.controller;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.ipiecoles.audiotheque.model.Artist;
 import com.ipiecoles.audiotheque.repository.ArtistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -193,27 +196,48 @@ public class ArtistController {
         }
     }
 
-    /*@RequestMapping(
+    @RequestMapping(
             method = RequestMethod.PUT,
             value = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public Artist updateArtist(
-            @RequestBody Artist artist,
-            @PathVariable Long id
+    public String updateArtistName(
+            //@RequestBody Artist artist,
+            @PathVariable Long id,
+            @RequestBody String info // name est en json {"name":"Azymuthtest4","id":26}
+
             //nom modifié correspondant à un autre artiste existant => 409 CONFLICT
             //valeurs incompatibles avec le type de l'attribut => 400 BAD REQUEST
             //valeurs incorrectes (fonctionnel) => 400 BAD REQUEST
             //excède les limites de la base (ex : nom > 50 caractères) => 400 BAD REQUEST
             //Vérifier que l'id de l'url correspond à l'id dans l'artiste => 400 BAD REQUEST
     ){
-        return artistRepository.save(artist);
-    }*/
 
-    /*@RequestMapping(
+
+        Artist artist = artistRepository.findArtistById(id); //On recup l'id.
+
+        JsonObject jsonObjectInfo ; // on crée un obj Json à partir des données JSON (librairie google gson)
+        jsonObjectInfo = JsonParser.parseString(info).getAsJsonObject();
+        //jsonElemInfo = JsonParser.parseString(info);
+
+
+
+
+        String name = jsonObjectInfo.get("name").getAsString(); //On recupere l'attribut name
+        //String name = jsonElemInfo.getAsJsonObject().get("name").toString(); //On recupere l'attribut name
+
+        artist.setName(name);   //met à jour le nom
+        artist = artistRepository.save(artist);
+        return artist.getName();
+
+
+    }
+/*  marche pas : Request method 'DELETE' not supported
+
+    @RequestMapping(
             method = RequestMethod.DELETE,
-            value = "/{id}"
+            value = "/{id}/delete"
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteArtist(
@@ -221,7 +245,6 @@ public class ArtistController {
     ){
         artistRepository.deleteById(id);
     }*/
-
 
 
 

@@ -10,15 +10,31 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
 
 /*@RestController
 @RequestMapping("/albums")*/
 public class AlbumController {
 
-    @Autowired
+    /*@Autowired
     private AlbumRepository albumRepository;
 
-    /*
+//afficher infos
+    @RequestMapping(
+            method = RequestMethod.GET,
+            value = "/{id}", //URL
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Album findAlbumById(@PathVariable Long id){
+        Optional<Album> album = albumRepository.findById(id);
+        if(album.isPresent()){
+            return album.get();
+        }
+        throw new EntityNotFoundException("L'artiste d'identifiant " + id + " n'existe pas !");
+    }
+
+
     @RequestMapping(
             method = RequestMethod.POST,
             value = "",
@@ -28,16 +44,8 @@ public class AlbumController {
     @ResponseStatus(HttpStatus.CREATED)
     public Album createAlbum(
             @RequestBody Album album
+            //@PathVariable Album album
     ){
-        //Artiste existe déjà (id, nom existant) => 409 CONFLICT
-        if(album.getId() != null && albumRepository.existsById(album.getId()) ||
-                albumRepository.existsByName(album.getTitle())){
-            throw new EntityExistsException("Il existe déjà un artiste identique en base");
-        }
-        //        //valeurs incompatibles avec le type de l'attribut => 400 BAD REQUEST
-        //        //valeurs incorrectes (fonctionnel) => 400 BAD REQUEST
-        //Hibernate validator, mettre en place une méthode de validation manuelle
-        //excède les limites de la base (ex : nom > 50 caractères) => 400 BAD REQUEST
         try {
             return albumRepository.save(album);
         }
