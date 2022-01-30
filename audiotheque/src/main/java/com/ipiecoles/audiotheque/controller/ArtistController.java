@@ -43,12 +43,15 @@ public class ArtistController {
             value = "/{id}", //URL
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Artist findArtistById(@PathVariable Long id){
-        Optional<Artist> artist = artistRepository.findById(id);
+    public Artist findArtistById(@PathVariable Integer id){
+        /*Optional<Artist> artist = artistRepository.findById(id);
         if(artist.isPresent()){
             return artist.get();
         }
-        throw new EntityNotFoundException("L'artiste d'identifiant " + id + " n'existe pas !");
+        throw new EntityNotFoundException("L'artiste d'identifiant " + id + " n'existe pas !");*/
+        Artist artist = artistRepository.findById(id);
+        return artist;
+
     }
 
 
@@ -141,7 +144,7 @@ public class ArtistController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public Artist updateArtistName(
-            @PathVariable Long id,
+            @PathVariable Integer id,
             @RequestBody String infos // infos est en json {"name":"Azymuthtest4","id":26}
 
     ){
@@ -183,7 +186,7 @@ public class ArtistController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void deleteArtist(
-            @PathVariable Long id
+            @PathVariable Integer id
     ){
         //artistRepository.deleteArtistById(id);
         Artist artist = artistRepository.findArtistById(id);

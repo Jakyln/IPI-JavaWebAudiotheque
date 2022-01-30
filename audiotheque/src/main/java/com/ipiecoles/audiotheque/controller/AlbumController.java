@@ -40,12 +40,13 @@ public class AlbumController {
             value = "/{id}", //URL
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Album findAlbumById(@PathVariable Long id){
-        Optional<Album> album = albumRepository.findById(id);
-        if(album.isPresent()){
-            return album.get();
-        }
-        throw new EntityNotFoundException("L'album d'identifiant " + id + " n'existe pas !");
+    public Album findAlbumById(@PathVariable Integer id){
+        Album album = albumRepository.findById(id);
+        /*if(album.){
+        }*/
+        return album;
+
+        //throw new EntityNotFoundException("L'album d'identifiant " + id + " n'existe pas !");
     }
 
 
@@ -70,7 +71,7 @@ public class AlbumController {
             HttpServletResponse response, Artist artist*/
             //@RequestParam("title") String title
             //@RequestParam Artist artist
-            //@PathVariable Long artistId
+            //@PathVariable Integer artistId
             @RequestBody @NotNull String infos
 
             ){
@@ -201,7 +202,7 @@ public class AlbumController {
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAlbum(
-            @PathVariable Long id
+            @PathVariable Integer id
     ){
         //Album album = albumRepository.getById(id);
         albumRepository.deleteById(id);
