@@ -21,6 +21,11 @@ public class Artist {
 
     public Artist() {}
 
+    public Artist(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Artist(Long id, String name, HashSet<Album> albums) {
         this.id = id;
         this.name = name;

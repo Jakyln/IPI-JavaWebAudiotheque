@@ -4,6 +4,7 @@ import com.ipiecoles.audiotheque.model.Album;
 import com.ipiecoles.audiotheque.model.Artist;
 import com.ipiecoles.audiotheque.repository.AlbumRepository;
 import com.ipiecoles.audiotheque.repository.ArtistRepository;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,8 +18,11 @@ import java.util.Optional;
 @RequestMapping("/albums")*/
 public class AlbumController {
 
-    /*@Autowired
+    @Autowired
     private AlbumRepository albumRepository;
+
+    @Autowired
+    private ArtistRepository artistRepository;
 
 //afficher infos
     @RequestMapping(
@@ -31,11 +35,11 @@ public class AlbumController {
         if(album.isPresent()){
             return album.get();
         }
-        throw new EntityNotFoundException("L'artiste d'identifiant " + id + " n'existe pas !");
+        throw new EntityNotFoundException("L'album d'identifiant " + id + " n'existe pas !");
     }
 
 
-    @RequestMapping(
+    /*@RequestMapping(
             method = RequestMethod.POST,
             value = "",
             produces = MediaType.APPLICATION_JSON_VALUE,
@@ -43,16 +47,29 @@ public class AlbumController {
     )
     @ResponseStatus(HttpStatus.CREATED)
     public Album createAlbum(
-            @RequestBody Album album
-            //@PathVariable Album album
-    ){
-        try {
-            return albumRepository.save(album);
-        }
-        catch(Exception e){
-            throw new IllegalArgumentException("Problème lors de la sauvegarde de l'artiste");
-        }
+            @RequestBody String title,
+            @RequestBody @NotNull Artist artist
+
+            ){
+        Album album = albumRepository.addAlbumToArtist(title,artist.getId());
+        return album;
+        //return albumRepository.save(album);
+
+
     }*/
+
+
+
+    @RequestMapping(
+            method = RequestMethod.DELETE,
+            value = "/{id}"
+    )
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteAlbum(
+            @PathVariable Long id
+    ){
+        albumRepository.deleteById(id);
+    }
 }
 
 

@@ -3,7 +3,9 @@ package com.ipiecoles.audiotheque.controller;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.ipiecoles.audiotheque.model.Album;
 import com.ipiecoles.audiotheque.model.Artist;
+import com.ipiecoles.audiotheque.repository.AlbumRepository;
 import com.ipiecoles.audiotheque.repository.ArtistRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import java.io.Console;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +32,9 @@ public class ArtistController {
 
     @Autowired
     private ArtistRepository artistRepository;
+
+    @Autowired
+    private AlbumRepository albumRepository;
 
 
 
@@ -42,32 +49,7 @@ public class ArtistController {
             return artist.get();
         }
         throw new EntityNotFoundException("L'artiste d'identifiant " + id + " n'existe pas !");
-        /*Artist artist = artistRepository.findById(id);
-        return artist;*/
     }
-
-
-    /*@RequestMapping(
-            method = RequestMethod.GET,
-            value = "",
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            params = "name"
-    )
-    public Artist<Artist> findArtistByName(
-            @RequestParam String name
-    ){
-
-        //String nameShort = name.substring(0,4);
-
-        List<Artist> artists = artistRepository.findByName(name);
-            if(artists != null){
-                return artists;
-            }
-            throw new EntityNotFoundException("L'artiste de nom " + name + " n'a pas été trouvé !");
-    }*/
-
-    //throw new IllegalArgumentException("Seul les lettres sont autorisées !");
-    //Nom correct mais inexistant => 404 NOT FOUND
 
 
  //liste d'artistes avec noms
@@ -89,53 +71,6 @@ public class ArtistController {
             }
             throw new EntityNotFoundException("L'artiste de nom " + name + " n'a pas été trouvé !");
     }
-
-        //throw new IllegalArgumentException("Seul les lettres sont autorisées !");
-        //Nom correct mais inexistant => 404 NOT FOUND
-        //
-/* Methode pour page d'artistes avec noms commanceant par variable
-    @RequestMapping(
-            method = RequestMethod.GET,
-            value = "",
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            params = "name"
-    )
-    public Page<Artist> findArtistByName(
-            @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "10") Integer size,
-            @RequestParam(defaultValue = "name") String sortProperty,
-            @RequestParam(defaultValue = "ASC") Sort.Direction sortDirection,
-            @RequestParam String name
-
-    ){
-        //Page ou size ne sont pas des entiers => 400 BAD REQUEST
-        //sortDirection différent de ASC ou DESC => 400 BAD REQUEST
-        //Valeurs négatives pour page et size => 400 BAD REQUEST
-        if(page < 0 || size <= 0){
-            throw new IllegalArgumentException("La page et la taille doivent être positifs !");
-        }
-        //sortProperty n'est pas un attribut d'Artiste => 400 BAD REQUEST
-        List<String> properties = Arrays.asList("id", "name", "nom");
-        if(!properties.contains(sortProperty)){
-            throw new IllegalArgumentException("La propriété de tri " + sortProperty + " est incorrecte !");
-        }
-        //contraindre size <= 50 => 400 BAD REQUEST
-        if(size > 50){
-            throw new IllegalArgumentException("La taille doit être inférieure ou égale à 50 !");
-        }
-        //page et size cohérents par rapport au nombre de lignes de la table => 400 BAD REQUEST
-        Long nbArtists = artistRepository.count();
-        if((long) size * page > nbArtists){
-            throw new IllegalArgumentException("Le couple numéro de page et taille de page est incorrect !");
-        }
-
-
-        return artistRepository.findByNameIgnoreCase(name,PageRequest.of(page, size, sortDirection, sortProperty));
-
-        //throw new EntityNotFoundException("L'artiste de nom " + name + " n'a pas été trouvé !");
-
-    }*/
-
 
 
     @RequestMapping(
@@ -243,13 +178,26 @@ public class ArtistController {
 
     @RequestMapping(
             method = RequestMethod.DELETE,
-            value = "/{id}/"
+            value = "/{id}"
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
     public void deleteArtist(
             @PathVariable Long id
     ){
-        artistRepository.deleteById(id);
+        //artistRepository.deleteArtistById(id);
+        Artist artist = artistRepository.findArtistById(id);
+        List<Album> albums = albumRepository.findAlbumByArtist(artist.getId());
+        //artist = albumRepository.deleteAlbumFromArtist(id);
+        for(int i = 0; i<albums.size();i++){
+            System.out.println("albums : " +albums.get(i).toString() );
+            albums.remove(i);
+        }
+        for (Album album : albums) {
+            System.out.println("album : " +album.getTitle() );
+            albumRepository.deleteAlbumFromArtist(artist.getId());
+        }
+        artistRepository.deleteArtistById(id);
     }
 
 }
