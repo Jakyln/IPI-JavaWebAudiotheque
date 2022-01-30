@@ -14,7 +14,7 @@ public interface AlbumRepository extends JpaRepository<Album, Long> {
 
     @Modifying
     @Query(value = "INSERT INTO album (title,artist_id) VALUES (?1,?2)", nativeQuery = true)
-    void addAlbumToArtist(String a_title,Long an_artist_id);
+    int addAlbumToArtist(String a_title,Long an_artist_id);
 
 
     /*@Query(value = "INSERT INTO album a (a.title) VALUES (title)", nativeQuery = true)

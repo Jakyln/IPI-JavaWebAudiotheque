@@ -64,7 +64,7 @@ public class AlbumController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @Transactional
-    public void createAlbum(
+    public int createAlbum(
             //@RequestBody Map<String,String> infos
             /*HttpServletRequest request,
             HttpServletResponse response, Artist artist*/
@@ -154,7 +154,7 @@ public class AlbumController {
         Album album = new Album();
         /*album.setTitle(title);
         album.setArtist(artist);*/
-         albumRepository.addAlbumToArtist(albumTitle, artist.getId());
+        return albumRepository.addAlbumToArtist(albumTitle, artist.getId());
          //albumRepository.save(album);
 
 
@@ -203,6 +203,7 @@ public class AlbumController {
     public void deleteAlbum(
             @PathVariable Long id
     ){
+        //Album album = albumRepository.getById(id);
         albumRepository.deleteById(id);
     }
 }
