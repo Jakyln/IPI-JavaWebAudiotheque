@@ -20,19 +20,20 @@ public interface ArtistRepository extends JpaRepository<Artist, Long> {
     @Query(value = "SELECT * FROM artist a WHERE a.name LIKE :name% ", nativeQuery = true)
     List<Artist> findByName(@Param("name") String name); //On met dans le paramètre du nom raccourci dans la requète  ex :'aero%'
 
-    //Page<Artist> findByNameIgnoreCase(String name, Pageable pageable);
 
 
-    @Query(value = "UPDATE artist a SET a.nom = name WHERE a.id = id", nativeQuery = true)
-    Artist updateArtist(Long id, String name);
+    @Query(value = "SELECT * FROM artist a WHERE a.name LIKE ?1", nativeQuery = true)
+    Artist findByNameOnly(String name);
 
-
+    /*
     @Query(value = "SELECT art.id,art.name,alb.title FROM artist art INNER JOIN album alb ON art.id = alb.artist_id WHERE artist_id;", nativeQuery = true)
-    Set<Album> getAllAlbumsByArtist(Long artist_id);
+    Set<Album> getAllAlbumsByArtist(Long artist_id);*/
 
     @Modifying
     @Query(value = "DELETE FROM artist WHERE id = ?1 ;", nativeQuery = true)
     void deleteArtistById(Long artiste_id);
+
+
 
 
 

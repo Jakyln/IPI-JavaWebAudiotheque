@@ -200,4 +200,29 @@ public class ArtistController {
         artistRepository.deleteArtistById(id);
     }
 
+
+
+    /*@RequestMapping(
+            method = RequestMethod.POST,
+            value = "",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ResponseStatus(HttpStatus.CREATED)
+        public Album addAlbum(
+            @RequestBody Album album,
+            @RequestBody Artist artist
+    ){
+        //Artiste existe déjà (id, nom existant) => 409 CONFLICT
+        try {
+            //return artistRepository.save(artist);
+            return albumRepository.save(album);
+
+
+        }
+        catch(Exception e){
+            throw new IllegalArgumentException("Problème lors de la sauvegarde de l'artiste");
+        }
+    }*/
+
 }
