@@ -12,10 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
@@ -25,6 +27,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
 @RequestMapping("/artists")
@@ -37,6 +41,18 @@ public class ArtistController {
     private AlbumRepository albumRepository;
 
 
+    /*Event event = this.eventRepository
+            .findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Event with id " + id + " not found."))
+
+    OU
+
+    Optional<Event> optionalEvent= this.eventRepository.findById(id);
+    if (!optionalEvent.isPresent()) {
+        throw new ResourceNotFoundException("Event with id " + id + " not found.");
+    }
+    Event event=optionalEvent.get();
+    //the rest of your logic*/
 
     @RequestMapping(
             method = RequestMethod.GET,
@@ -44,11 +60,24 @@ public class ArtistController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public Artist findArtistById(@PathVariable Long id){
-        Optional<Artist> artist = artistRepository.findById(id);
-        if(artist.isPresent()){
-            return artist.get();
-        }
-        throw new EntityNotFoundException("L'artiste d'identifiant " + id + " n'existe pas !");
+        /*Optional<Artist> optionalArtist = artistRepository.findById(id);
+        if(!optionalArtist.isPresent()){
+            //throw new EntityNotFoundException("L'artiste d'identifiant " + id + " n'existe pas !");
+            throw new ResourceNotFoundException("L'artiste d'identifiant " + id + " n'existe pas !");
+            //throw new ResponseStatusException("L'artiste d'identifiant " + id + " n'existe pas !");
+        }*/
+        /*else{
+            //throw new ResponseStatusException(NOT_FOUND, "L'artiste d'identifiant " + id + " n'existe pas !");
+            //throw new ResourceNotFoundException("L'artiste d'identifiant " + id + " n'existe pas !");
+        }*/
+        /* Artist artist = optionalArtist.get();
+         return artist;*/
+
+         Artist artist = this.artistRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("L'artiste d'identifiant " + id + " n'existe pas !"));
+        return artist;
+
         /*Artist artist = artistRepository.findById(id);
         return artist;*/
 
@@ -199,10 +228,10 @@ public class ArtistController {
         Optional<Artist> artist = artistRepository.findById(id);
         List<Album> albums = albumRepository.findAlbumByArtist(artist.get().getId());
         //artist = albumRepository.deleteAlbumFromArtist(id);
-        for(int i = 0; i<albums.size();i++){
+        /*for(int i = 0; i<albums.size();i++){
             System.out.println("albums : " +albums.get(i).toString() );
             albums.remove(i);
-        }
+        }*/
         for (Album album : albums) {
             System.out.println("album : " +album.getTitle() );
             albumRepository.deleteAlbumFromArtist(artist.get().getId());

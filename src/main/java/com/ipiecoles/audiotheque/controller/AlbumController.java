@@ -66,10 +66,11 @@ public class AlbumController {
     @ResponseStatus(HttpStatus.CREATED)
     //@Transactional
     public Album createAlbum(
-            @RequestBody @NotNull String infos
+            //@RequestBody @NotNull String infos
+            @RequestBody Album album
 
             ){
-        Artist artist = new Artist();
+        /*Artist artist = new Artist();
 
 
         String artistName="";
@@ -110,7 +111,7 @@ public class AlbumController {
         Long lastId = lastAlbum.getId();
         album.setId(lastId++);
         album.setTitle(albumTitle);
-        album.setArtist(artist);
+        album.setArtist(artist);*/
 
         //return albumRepository.addAlbumToArtist(albumTitle, artist.getId());
         return albumRepository.save(album);
