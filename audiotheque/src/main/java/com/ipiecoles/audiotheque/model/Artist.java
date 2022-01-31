@@ -11,7 +11,7 @@ public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     //@Column(name="artistleid")
-    private Integer id;
+    private Long id;
     //@Column(name="artistlename")
     private String name;
 
@@ -21,21 +21,21 @@ public class Artist {
 
     public Artist() {}
 
-    public Artist(Integer id, String name) {
+    public Artist(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Artist(Integer id, String name, HashSet<Album> albums) {
+    public Artist(Long id, String name, HashSet<Album> albums) {
         this.id = id;
         this.name = name;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

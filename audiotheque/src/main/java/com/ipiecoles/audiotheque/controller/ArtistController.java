@@ -43,14 +43,14 @@ public class ArtistController {
             value = "/{id}", //URL
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Artist findArtistById(@PathVariable Integer id){
-        /*Optional<Artist> artist = artistRepository.findById(id);
+    public Artist findArtistById(@PathVariable Long id){
+        Optional<Artist> artist = artistRepository.findById(id);
         if(artist.isPresent()){
             return artist.get();
         }
-        throw new EntityNotFoundException("L'artiste d'identifiant " + id + " n'existe pas !");*/
-        Artist artist = artistRepository.findById(id);
-        return artist;
+        throw new EntityNotFoundException("L'artiste d'identifiant " + id + " n'existe pas !");
+        /*Artist artist = artistRepository.findById(id);
+        return artist;*/
 
     }
 
@@ -144,13 +144,13 @@ public class ArtistController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public Artist updateArtistName(
-            @PathVariable Integer id,
+            @PathVariable Long id,
             @RequestBody String infos // infos est en json {"name":"Azymuthtest4","id":26}
 
     ){
 
 
-        Artist artist = artistRepository.findArtistById(id); //On recup l'id.
+        Optional<Artist> artist = artistRepository.findById(id); //On recup l'id.
 
         String name="";
 
@@ -168,9 +168,9 @@ public class ArtistController {
             }
         }
 
-        artist.setName(name);   //met à jour le nom
+        artist.get().setName(name);   //met à jour le nom
         //artist = artistRepository.save(artist);
-        return artistRepository.save(artist);
+        return artistRepository.save(artist.get());
         //return artist.getName(); //renvoie une erreur de 1er caractère JSON, mais la ligne est bien mise à jour dans la bdd
 
 
@@ -186,11 +186,11 @@ public class ArtistController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void deleteArtist(
-            @PathVariable Integer id
+            @PathVariable Long id
     ){
         //artistRepository.deleteArtistById(id);
-        Artist artist = artistRepository.findArtistById(id);
-        List<Album> albums = albumRepository.findAlbumByArtist(artist.getId());
+        Optional<Artist> artist = artistRepository.findById(id);
+        List<Album> albums = albumRepository.findAlbumByArtist(artist.get().getId());
         //artist = albumRepository.deleteAlbumFromArtist(id);
         for(int i = 0; i<albums.size();i++){
             System.out.println("albums : " +albums.get(i).toString() );
@@ -198,8 +198,9 @@ public class ArtistController {
         }
         for (Album album : albums) {
             System.out.println("album : " +album.getTitle() );
-            albumRepository.deleteAlbumFromArtist(artist.getId());
+            albumRepository.deleteAlbumFromArtist(artist.get().getId());
         }
+        //artistRepository.deleteById(id);
         artistRepository.deleteArtistById(id);
     }
 
