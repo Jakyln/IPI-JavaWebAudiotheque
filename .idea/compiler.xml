@@ -7,14 +7,17 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="audiotheque" />
+        <module name="IPI-JavaWebAudiotheque" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="audiotheque" target="11" />
+      <module name="IPI-JavaWebAudiotheque" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="IPI-JavaWebAudiotheque" options="-parameters" />
       <module name="audiotheque" options="-parameters" />
     </option>
   </component>
