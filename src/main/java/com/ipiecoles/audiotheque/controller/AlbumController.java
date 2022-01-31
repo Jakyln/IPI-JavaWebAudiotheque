@@ -113,7 +113,7 @@ public class AlbumController {
         album.setTitle(albumTitle);
         album.setArtist(artist);*/
 
-        //return albumRepository.addAlbumToArtist(albumTitle, artist.getId());
+        //return albumRepository.addAlbumToArtist(albumTitle, artist.getId()); // erreur quand on ajoute plusieurs albums
         return albumRepository.save(album);
 
 
@@ -129,7 +129,6 @@ public class AlbumController {
     public void deleteAlbum(
             @PathVariable Long id
     ){
-        //Album album = albumRepository.getById(id);
         albumRepository.deleteById(id);
     }
 }

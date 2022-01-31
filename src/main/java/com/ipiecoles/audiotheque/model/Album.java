@@ -8,9 +8,7 @@ import javax.persistence.*;
 public class Album {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@Column(name="albumleid")
     private Long id;
-    //@Column(name="albumletitle")
     private String title;
 
     @ManyToOne
