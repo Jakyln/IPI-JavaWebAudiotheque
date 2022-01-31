@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class Album {
     @Id
     //@Column(name="albumleid")
-    private Integer id;
+    private Long id;
     //@Column(name="albumletitle")
     private String title;
 
@@ -19,18 +19,18 @@ public class Album {
 
     public Album() {}
 
-    public Album(Integer id, String title) {
+    public Album(Long id, String title) {
         this.id = id;
         this.title = title;
     }
 
 
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

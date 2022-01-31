@@ -15,7 +15,7 @@ public interface ArtistRepository extends JpaRepository<Artist, Long> {
     //@Query("select * from artist where id = " + unId);
     boolean existsByName(String name);
 
-    Artist findArtistById(Integer id);
+    //Artist findArtistById(Integer id);
 
     @Query(value = "SELECT * FROM artist a WHERE a.name LIKE :name% ", nativeQuery = true)
     List<Artist> findByName(@Param("name") String name); //On met dans le paramètre du nom raccourci dans la requète  ex :'aero%'
@@ -31,10 +31,13 @@ public interface ArtistRepository extends JpaRepository<Artist, Long> {
 
     @Modifying
     @Query(value = "DELETE FROM artist WHERE id = ?1 ;", nativeQuery = true)
-    void deleteArtistById(Integer artiste_id);
+    void deleteArtistById(Long artiste_id);
 
-    Boolean existsById(Integer id);
-    Artist findById(Integer id);
+    //Boolean existsById(Long id);
+    //Artist findById(Integer id);
+
+    /*@Query(value = "SELECT MAX(id) FROM artist;", nativeQuery = true)
+    Long findLastId();*/
 
 
 

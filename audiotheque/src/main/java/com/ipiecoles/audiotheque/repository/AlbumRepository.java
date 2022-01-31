@@ -15,23 +15,25 @@ public interface AlbumRepository extends JpaRepository<Album, Long> {
 
     @Modifying
     @Query(value = "INSERT INTO album (title,artist_id) VALUES (?1,?2)", nativeQuery = true)
-    int addAlbumToArtist(String a_title,Integer an_artist_id);
+    int addAlbumToArtist(String a_title,Long an_artist_id);
 
 
     /*@Query(value = "INSERT INTO album a (a.title) VALUES (title)", nativeQuery = true)
     Album addAlbumToArtist(String title);*/
 
     @Query(value = "SELECT * FROM album WHERE artist_id = id;", nativeQuery = true)
-    List<Album> findAlbumByArtist(Integer id);
+    List<Album> findAlbumByArtist(Long id);
 
     @Modifying
     @Query(value = "DELETE FROM album WHERE artist_id = ?1 ;", nativeQuery = true)
-    void deleteAlbumFromArtist(Integer artiste_id);
+    void deleteAlbumFromArtist(Long artiste_id);
 
-    void deleteById(Integer id);
+    //void deleteById(Long id);
 
-     Album findById(Integer id);
+     //Album findById(Long id);
 
+
+    Album findTopByOrderByIdDesc();
 
 
 }
