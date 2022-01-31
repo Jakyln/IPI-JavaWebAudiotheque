@@ -125,16 +125,23 @@ public class ArtistController {
                 artistRepository.existsByName(artist.getName())){
             throw new EntityExistsException("Il existe déjà un artiste identique en base");
         }
+
+        if(artist.getName().trim().length()>0){
+            try {
+                return artistRepository.save(artist);
+            }
+            catch(Exception e){
+                throw new IllegalArgumentException("Problème lors de la sauvegarde de l'artiste");
+            }
+        }
+        else{
+            throw new IllegalArgumentException("Veuillez remplir le champ du nom de l'artiste");
+        }
         //        //valeurs incompatibles avec le type de l'attribut => 400 BAD REQUEST
         //        //valeurs incorrectes (fonctionnel) => 400 BAD REQUEST
         //Hibernate validator, mettre en place une méthode de validation manuelle
         //excède les limites de la base (ex : nom > 50 caractères) => 400 BAD REQUEST
-        try {
-            return artistRepository.save(artist);
-        }
-        catch(Exception e){
-            throw new IllegalArgumentException("Problème lors de la sauvegarde de l'artiste");
-        }
+
     }
 
     @RequestMapping(
@@ -192,10 +199,10 @@ public class ArtistController {
         Optional<Artist> artist = artistRepository.findById(id);
         List<Album> albums = albumRepository.findAlbumByArtist(artist.get().getId());
         //artist = albumRepository.deleteAlbumFromArtist(id);
-        for(int i = 0; i<albums.size();i++){
+        /*for(int i = 0; i<albums.size();i++){
             System.out.println("albums : " +albums.get(i).toString() );
             albums.remove(i);
-        }
+        }*/
         for (Album album : albums) {
             System.out.println("album : " +album.getTitle() );
             albumRepository.deleteAlbumFromArtist(artist.get().getId());

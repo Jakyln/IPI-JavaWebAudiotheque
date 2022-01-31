@@ -5,9 +5,9 @@ import org.springframework.data.jpa.repository.query.PartTreeJpaQuery;
 import javax.persistence.*;
 
 @Entity
-//@Table(name="album")
 public class Album {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     //@Column(name="albumleid")
     private Long id;
     //@Column(name="albumletitle")
