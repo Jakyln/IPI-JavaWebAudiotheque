@@ -126,7 +126,7 @@ public class ArtistController {
             throw new EntityExistsException("Il existe déjà un artiste identique en base");
         }
 
-        if(artist.getName().trim().length()>0){
+        if(artist.getName().trim().length()>0){ //vérifie si le user n'a pas mis que des espaces
             try {
                 return artistRepository.save(artist);
             }
@@ -137,10 +137,7 @@ public class ArtistController {
         else{
             throw new IllegalArgumentException("Veuillez remplir le champ du nom de l'artiste");
         }
-        //        //valeurs incompatibles avec le type de l'attribut => 400 BAD REQUEST
-        //        //valeurs incorrectes (fonctionnel) => 400 BAD REQUEST
-        //Hibernate validator, mettre en place une méthode de validation manuelle
-        //excède les limites de la base (ex : nom > 50 caractères) => 400 BAD REQUEST
+
 
     }
 
@@ -176,7 +173,6 @@ public class ArtistController {
         }
 
         artist.get().setName(name);   //met à jour le nom
-        //artist = artistRepository.save(artist);
         return artistRepository.save(artist.get());
         //return artist.getName(); //renvoie une erreur de 1er caractère JSON, mais la ligne est bien mise à jour dans la bdd
 
@@ -184,7 +180,6 @@ public class ArtistController {
     }
 
 
- // marche pas : Request method 'DELETE' not supported
 
     @RequestMapping(
             method = RequestMethod.DELETE,
@@ -195,45 +190,18 @@ public class ArtistController {
     public void deleteArtist(
             @PathVariable Long id
     ){
-        //artistRepository.deleteArtistById(id);
         Optional<Artist> artist = artistRepository.findById(id);
         List<Album> albums = albumRepository.findAlbumByArtist(artist.get().getId());
-        //artist = albumRepository.deleteAlbumFromArtist(id);
-        /*for(int i = 0; i<albums.size();i++){
-            System.out.println("albums : " +albums.get(i).toString() );
-            albums.remove(i);
-        }*/
+
         for (Album album : albums) {
             System.out.println("album : " +album.getTitle() );
             albumRepository.deleteAlbumFromArtist(artist.get().getId());
         }
-        //artistRepository.deleteById(id);
         artistRepository.deleteArtistById(id);
     }
 
 
 
-    /*@RequestMapping(
-            method = RequestMethod.POST,
-            value = "",
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE
-    )
-    @ResponseStatus(HttpStatus.CREATED)
-        public Album addAlbum(
-            @RequestBody Album album,
-            @RequestBody Artist artist
-    ){
-        //Artiste existe déjà (id, nom existant) => 409 CONFLICT
-        try {
-            //return artistRepository.save(artist);
-            return albumRepository.save(album);
 
-
-        }
-        catch(Exception e){
-            throw new IllegalArgumentException("Problème lors de la sauvegarde de l'artiste");
-        }
-    }*/
 
 }
