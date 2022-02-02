@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -17,9 +18,14 @@ public class GlobalExceptionHandler {
         return "La valeur " + e.getValue() + " est incorrecte pour le paramètre "
                 + e.getName();
     }
-    /*public String handleEntityNotFoundException(EntityNotFoundException entityNotFoundException){
-        return e.getMessage();
-    }*/
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleEntityNotFoundException(EntityNotFoundException entityNotFoundException){
+        return entityNotFoundException.getMessage();
+    }
+
+
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleIllegalArgumentException(IllegalArgumentException e){
