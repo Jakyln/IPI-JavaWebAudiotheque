@@ -1,10 +1,12 @@
 package com.ipiecoles.audiotheque.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.springframework.data.jpa.repository.query.PartTreeJpaQuery;
 
 import javax.persistence.*;
 
 @Entity
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 public class Album {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,5 +51,18 @@ public class Album {
     }
 
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

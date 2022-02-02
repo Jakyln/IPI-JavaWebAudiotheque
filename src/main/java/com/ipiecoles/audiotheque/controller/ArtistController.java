@@ -56,7 +56,7 @@ public class ArtistController {
 
 
  //liste d'artistes avec noms
-    @RequestMapping(
+    /*@RequestMapping(
             method = RequestMethod.GET,
             value = "",
             produces = MediaType.APPLICATION_JSON_VALUE,
@@ -73,6 +73,57 @@ public class ArtistController {
                 return artists;
             }
             throw new EntityNotFoundException("L'artiste de nom " + name + " n'a pas été trouvé !");
+    }*/
+
+    @RequestMapping(
+            method = RequestMethod.GET,
+            value = "",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            params = "name"
+
+    )
+    public Page<Artist> findArtistByName(
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size,
+            @RequestParam(defaultValue = "name") String sortProperty,
+            @RequestParam(defaultValue = "ASC") Sort.Direction sortDirection,
+            @RequestParam String name
+    ){
+        //Page ou size ne sont pas des entiers => 400 BAD REQUEST
+        //sortDirection différent de ASC ou DESC => 400 BAD REQUEST
+        //Valeurs négatives pour page et size => 400 BAD REQUEST
+        /*if(page < 0 || size <= 0){
+            throw new IllegalArgumentException("La page et la taille doivent être positifs !");
+        }
+        //sortProperty n'est pas un attribut d'Artiste => 400 BAD REQUEST
+        List<String> properties = Arrays.asList("id", "name", "nom");
+        if(!properties.contains(sortProperty)){
+            throw new IllegalArgumentException("La propriété de tri " + sortProperty + " est incorrecte !");
+        }
+        //contraindre size <= 50 => 400 BAD REQUEST
+        if(size > 50){
+            throw new IllegalArgumentException("La taille doit être inférieure ou égale à 50 !");
+        }
+        //page et size cohérents par rapport au nombre de lignes de la table => 400 BAD REQUEST
+        Long nbArtists = artistRepository.count();
+        if((long) size * page > nbArtists){
+            throw new IllegalArgumentException("Le couple numéro de page et taille de page est incorrect !");
+        }*/
+        //return artistRepository.findAll(PageRequest.of(page, size, sortDirection, sortProperty));
+        /*List<Artist> artists = artistRepository.findByName(name);
+        Page<Long> artistsId = artistRepository.findByNameGetIds(name);*/
+        Page artists =  artistRepository.findByName(name,PageRequest.of(page,size,sortDirection,sortProperty));
+        if(artists != null){
+            return artists;
+        }
+        //return artistRepository.findAllById(artistsId);
+
+        /*List<Artist> artists = artistRepository.findByName(name);
+        if(artists != null){
+            return artists;
+        }*/
+        //
+        throw new EntityNotFoundException("L'artiste de nom " + name + " n'a pas été trouvé !");
     }
 
 
